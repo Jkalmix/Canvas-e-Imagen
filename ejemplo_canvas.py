@@ -30,9 +30,9 @@ rectangulo = canvas.create_rectangle(250, 50, 400, 120,
         width=2)         # Grosor del borde
 canvas.create_text(325, 130, text="Rectángulo Relleno", font=("Arial", 9), fill="black")
 
-    # 4. Dibujar un Óvalo (o Círculo)
-    # create_oval(x1, y1, x2, y2, opciones)
-    # También definido por un rectángulo delimitador.
+# 4. Dibujar un Óvalo (o Círculo)
+# create_oval(x1, y1, x2, y2, opciones)
+# También definido por un rectángulo delimitador.
 ovalo= canvas.create_oval(450, 50, 550, 150, # Un cuadrado delimitador para un círculo
         fill="red",
         outline="maroon",
@@ -43,37 +43,37 @@ canvas.create_text(500, 160, text="Círculo (Óvalo)", font=("Arial", 9), fill="
 # create_polygon(x1, y1, x2, y2, ..., opciones)
 # Lista de coordenadas de los vértices. Se cierra automáticamente el polígono.
 poligono= canvas.create_polygon(50, 200, 150, 200, 100, 280, # Coordenadas para un triángulo
-                                   fill="purple",
-                                   outline="darkviolet",
-                                   width=3)
+    fill="purple",
+    outline="darkviolet",
+    width=3)
 canvas.create_text(100, 290, text="Triángulo (Polígono)", font=("Arial", 9), fill="black")
 
-    # 6. Dibujar un Arco
-    # create_arc(x1, y1, x2, y2, opciones)
-    # Definido por un rectángulo delimitador, ángulos de inicio y extensión, y estilo.
+# 6. Dibujar un Arco
+# # create_arc(x1, y1, x2, y2, opciones)
+# Definido por un rectángulo delimitador, ángulos de inicio y extensión, y estilo.
 pedazo_de_arco = canvas.create_arc(250, 200, 400, 300,
-                                        start=45, extent=180, # Empieza a 45 grados, se extiende 180
-                                        fill="yellow",
-                                        outline="orange",
-                                        width=2,
-                                        style=tk.PIESLICE) # Estilo: sector de pastel
+    start=45, extent=180, # Empieza a 45 grados, se extiende 180
+    fill="yellow",
+    outline="orange",
+    width=2,
+    style=tk.PIESLICE) # Estilo: sector de pastel
 canvas.create_text(325, 310, text="Arco (pedazo de pastel)", font=("Arial", 9), fill="black")
 
 arco = canvas.create_arc(450, 200, 550, 300,
-                                    start=0, extent=270,
-                                    outline="blue",
-                                    width=3,
-                                    style=tk.ARC) # Estilo: solo el arco, sin relleno
+    start=0, extent=270,
+    outline="blue",
+    width=3,
+    style=tk.ARC) # Estilo: solo el arco, sin relleno
 canvas.create_text(500, 310, text="Arco (Solo Línea)", font=("Arial", 9), fill="black")
 
-    # 7. Dibujar Texto
-    # create_text(x, y, text="...", opciones)
-    # (x,y) es el punto de anclaje del texto (por defecto el centro).
+# 7. Dibujar Texto
+# create_text(x, y, text="...", opciones)
+# (x,y) es el punto de anclaje del texto (por defecto el centro).
 texto_id = canvas.create_text(300, 350,
-                                 text="¡Hola, Canvas! Este es un texto.",
-                                 font=("Verdana", 16, "bold"),
-                                 fill="navy",
-                                 anchor=tk.CENTER) # El texto se centra en (300, 350)
+    text="¡Hola, Canvas! Este es un texto.",
+    font=("Verdana", 16, "bold"),
+    fill="navy",
+    anchor=tk.CENTER) # El texto se centra en (300, 350)
     
 
 
@@ -85,9 +85,7 @@ control_frame.pack(pady=10)
 
 tk.Label(control_frame, text="Manipulación de Objetos:", font=("Arial", 12, "bold"), fg="#EBEBEB", bg="#2C2525").pack(pady=5)
 
-# 1. canvas.move(id_o_tag, dx, dy): Mueve un objeto una cantidad relativa.
-
-# 
+# 1. canvas.move(id_o_tag, dx, dy): Mueve un objeto una cantidad relativa. 
 def mover_linea_derecha():
     canvas.move(linea, 10, 0) # Mueve la línea 10 píxeles a la derecha
 
