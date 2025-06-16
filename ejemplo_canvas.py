@@ -2,7 +2,7 @@ import tkinter as tk
 
 root = tk.Tk()
 root.title("Ejemplo Completo de Tkinter Canvas")
-root.geometry("700x650") # Tamaño de la ventana
+root.geometry("1000x1000") # Tamaño de la ventana
 root.configure(bg="#2C2525")
 # 1. Crear el Widget Canvas
 # área de dibujo. 
@@ -77,6 +77,93 @@ texto_id = canvas.create_text(300, 350,
     
 
 
-root.mainloop()
+# --- Controles para las Nuevas Funcionalidades ---
 
+# Frame para agrupar los botones de manipulación
+control_frame = tk.Frame(root, bg="#2C2525", bd=2, relief="groove", padx=10, pady=10)
+control_frame.pack(pady=10)
+
+tk.Label(control_frame, text="Manipulación de Objetos:", font=("Arial", 12, "bold"), fg="#EBEBEB", bg="#2C2525").pack(pady=5)
+
+# 1. canvas.move(id_o_tag, dx, dy): Mueve un objeto una cantidad relativa.
+
+# 
+def mover_linea_derecha():
+    canvas.move(linea, 10, 0) # Mueve la línea 10 píxeles a la derecha
+
+def mover_linea_izquierda():
+    canvas.move(linea, -10, 0) 
+
+
+btn_mover_der = tk.Button(control_frame, text="Mover Línea Derecha", command=mover_linea_derecha)
+btn_mover_der.pack(side=tk.LEFT, padx=5, pady=5)
+
+btn_mover_izq = tk.Button(control_frame, text="Mover Línea Izquierda", command=mover_linea_izquierda)
+btn_mover_izq.pack(side=tk.LEFT, padx=5, pady=5)
+
+
+# 2. canvas.itemconfig(id_o_tag, **new_options): Cambia las opciones de visualización.
+def alternar_color_rectangulo():
+    # 3. canvas.itemcget(id_o_tag, "option"): Recupera el valor actual de una opción.
+    current_fill = canvas.itemcget(rectangulo, "fill") # Obtener el color actual
+    new_fill = "blue" if current_fill == "#14AC07" else "#14AC07"
+    canvas.itemconfig(rectangulo, fill=new_fill, outline="navy", width=4) 
+
+btn_cambiar_color = tk.Button(control_frame, text="Alternar Color Rectángulo", command=alternar_color_rectangulo)
+btn_cambiar_color.pack(side=tk.LEFT, padx=5, pady=5)
+
+# 4. canvas.coords(id_o_tag, *new_coordinates): Modifica las coordenadas.
+# Esencial para redimensionamientos o posicionamientos absolutos.
+def redimensionar_y_reubicar_poligono():
+    # Coordenadas nuevas para hacerlo más grande y moverlo hacia abajo
+    canvas.coords(poligono,# ID del polígono
+                  50, 320, # Nuevo punto 1
+                  200, 320,# Nuevo punto 2
+                  125, 450)# Nuevo punto 3
+    canvas.itemconfig(poligono, fill="cyan", outline="darkblue")
+
+btn_redimensionar_poligono = tk.Button(control_frame, text="Redimensionar Polígono", command=redimensionar_y_reubicar_poligono)
+btn_redimensionar_poligono.pack(side=tk.LEFT, padx=5, pady=5)
+
+# 5. canvas.delete(id_o_tag_o_tk.ALL): Elimina objetos del Canvas.
+def eliminar_arco():
+    canvas.delete(arco) # Eliminar el arco por su tag
+    canvas.create_text(300, 420, text="¡Arco Eliminado!", font=("Arial", 12, "bold"), fill="red")
+
+def limpiar_todo_canvas():
+    canvas.delete(tk.ALL) # Elimina TODOS los objetos del canvas
+
+btn_eliminar_arco = tk.Button(control_frame, text="Eliminar Arco", command=eliminar_arco)
+btn_eliminar_arco.pack(side=tk.LEFT, padx=5, pady=5)
+
+btn_limpiar_todo = tk.Button(control_frame, text="Limpiar Todo el Canvas", command=limpiar_todo_canvas)
+btn_limpiar_todo.pack(side=tk.LEFT, padx=5, pady=5)
+
+
+# --- Eventos (.bind() con tags) ---
+# Permite asociar funciones a eventos del ratón o teclado en objetos específicos del canvas.
+
+def on_circulo_click(event):
+    """
+    Función que se ejecuta cuando se hace clic en un objeto con el tag 'clickeable_objeto'.
+    El objeto 'event' contiene información como las coordenadas del clic y el ID del objeto.
+    """
+    clicked_id = canvas.find_closest(event.x, event.y)[0] # Encuentra el objeto más cercano al clic
+    # Asegúrate de que el objeto clicado sea el óvalo, si tienes múltiples objetos cerca.
+    # Alternativamente, puedes usar event.widget.find_withtag("current")
+    
+    # Cambiamos el color del óvalo al hacer clic
+    current_outline = canvas.itemcget(ovalo, "outline")
+    new_outline = "green" if current_outline == "maroon" else "maroon"
+    canvas.itemconfig(ovalo, outline=new_outline, width=5)
+
+    # Actualizamos el texto de información con el ID del objeto
+    canvas.itemconfig(click_info_text_id, text=f"Clicado: Objeto ID {clicked_id} (Óvalo)", fill="darkblue")
+    
+    print(f"Se hizo clic en el óvalo (ID: {clicked_id}) en coordenadas ({event.x}, {event.y})")
+
+
+
+
+root.mainloop()
 
