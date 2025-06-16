@@ -2,11 +2,11 @@ import tkinter as tk
 
 root = tk.Tk()
 root.title("Ejemplo Completo de Tkinter Canvas")
-root.geometry("1000x1000") # Tamaño de la ventana
-root.configure(bg="#2C2525")
+root.geometry("850x700") # Tamaño de la ventana
+root.configure(bg="#252525")
 # 1. Crear el Widget Canvas
 # área de dibujo. 
-canvas = tk.Canvas(root, width=600, height=500, bg="#EBEBEB", bd=2, relief="sunken")
+canvas = tk.Canvas(root, width=600, height=500, bg="#DFDFDF", bd=2, relief="sunken")
 canvas.pack(pady=20, padx=20) # Empaquetar el canvas en la ventana principal
 
 # --- Creación de Objetos en el Canvas ---
@@ -19,7 +19,7 @@ linea = canvas.create_line(50, 50, 200, 50, 200, 80, # De (50,50) a (200,50)
         width=3,         # Grosor de la línea
         arrow=tk.LAST,   # Flecha al final de la línea
         dash=(5, 3))     # Patrón de guiones (5px línea, 3px espacio)
-canvas.create_text(125, 40, text="Línea con flecha y guiones", font=("Arial", 9), fill="gray")
+canvas.create_text(125, 40, text="Línea con flecha y guiones", font=("Arial", 9), fill="black")
 
 # 3. Dibujar un Rectángulo
 # create_rectangle(x1, y1, x2, y2, opciones)
@@ -28,7 +28,7 @@ rectangulo = canvas.create_rectangle(250, 50, 400, 120,
         fill="#14AC07",    # Color de relleno
         outline="darkgreen", # Color del borde
         width=2)         # Grosor del borde
-canvas.create_text(325, 130, text="Rectángulo Relleno", font=("Arial", 9), fill="gray")
+canvas.create_text(325, 130, text="Rectángulo Relleno", font=("Arial", 9), fill="black")
 
     # 4. Dibujar un Óvalo (o Círculo)
     # create_oval(x1, y1, x2, y2, opciones)
@@ -37,7 +37,7 @@ ovalo= canvas.create_oval(450, 50, 550, 150, # Un cuadrado delimitador para un c
         fill="red",
         outline="maroon",
         width=2)
-canvas.create_text(500, 160, text="Círculo (Óvalo)", font=("Arial", 9), fill="gray")
+canvas.create_text(500, 160, text="Círculo (Óvalo)", font=("Arial", 9), fill="black")
 
 # 5. Dibujar un Polígono
 # create_polygon(x1, y1, x2, y2, ..., opciones)
@@ -46,7 +46,7 @@ poligono= canvas.create_polygon(50, 200, 150, 200, 100, 280, # Coordenadas para 
                                    fill="purple",
                                    outline="darkviolet",
                                    width=3)
-canvas.create_text(100, 290, text="Triángulo (Polígono)", font=("Arial", 9), fill="gray")
+canvas.create_text(100, 290, text="Triángulo (Polígono)", font=("Arial", 9), fill="black")
 
     # 6. Dibujar un Arco
     # create_arc(x1, y1, x2, y2, opciones)
@@ -57,14 +57,14 @@ pedazo_de_arco = canvas.create_arc(250, 200, 400, 300,
                                         outline="orange",
                                         width=2,
                                         style=tk.PIESLICE) # Estilo: sector de pastel
-canvas.create_text(325, 310, text="Arco (pedazo de pastel)", font=("Arial", 9), fill="gray")
+canvas.create_text(325, 310, text="Arco (pedazo de pastel)", font=("Arial", 9), fill="black")
 
 arco = canvas.create_arc(450, 200, 550, 300,
                                     start=0, extent=270,
                                     outline="blue",
                                     width=3,
                                     style=tk.ARC) # Estilo: solo el arco, sin relleno
-canvas.create_text(500, 310, text="Arco (Solo Línea)", font=("Arial", 9), fill="gray")
+canvas.create_text(500, 310, text="Arco (Solo Línea)", font=("Arial", 9), fill="black")
 
     # 7. Dibujar Texto
     # create_text(x, y, text="...", opciones)
@@ -80,7 +80,7 @@ texto_id = canvas.create_text(300, 350,
 # --- Controles para las Nuevas Funcionalidades ---
 
 # Frame para agrupar los botones de manipulación
-control_frame = tk.Frame(root, bg="#2C2525", bd=2, relief="groove", padx=10, pady=10)
+control_frame = tk.Frame(root, bg="#7A7070", bd=2, relief="groove", padx=10, pady=10)
 control_frame.pack(pady=10)
 
 tk.Label(control_frame, text="Manipulación de Objetos:", font=("Arial", 12, "bold"), fg="#EBEBEB", bg="#2C2525").pack(pady=5)
@@ -139,28 +139,6 @@ btn_eliminar_arco.pack(side=tk.LEFT, padx=5, pady=5)
 btn_limpiar_todo = tk.Button(control_frame, text="Limpiar Todo el Canvas", command=limpiar_todo_canvas)
 btn_limpiar_todo.pack(side=tk.LEFT, padx=5, pady=5)
 
-
-# --- Eventos (.bind() con tags) ---
-# Permite asociar funciones a eventos del ratón o teclado en objetos específicos del canvas.
-
-def on_circulo_click(event):
-    """
-    Función que se ejecuta cuando se hace clic en un objeto con el tag 'clickeable_objeto'.
-    El objeto 'event' contiene información como las coordenadas del clic y el ID del objeto.
-    """
-    clicked_id = canvas.find_closest(event.x, event.y)[0] # Encuentra el objeto más cercano al clic
-    # Asegúrate de que el objeto clicado sea el óvalo, si tienes múltiples objetos cerca.
-    # Alternativamente, puedes usar event.widget.find_withtag("current")
-    
-    # Cambiamos el color del óvalo al hacer clic
-    current_outline = canvas.itemcget(ovalo, "outline")
-    new_outline = "green" if current_outline == "maroon" else "maroon"
-    canvas.itemconfig(ovalo, outline=new_outline, width=5)
-
-    # Actualizamos el texto de información con el ID del objeto
-    canvas.itemconfig(click_info_text_id, text=f"Clicado: Objeto ID {clicked_id} (Óvalo)", fill="darkblue")
-    
-    print(f"Se hizo clic en el óvalo (ID: {clicked_id}) en coordenadas ({event.x}, {event.y})")
 
 
 
